@@ -1,0 +1,68 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+#logo {
+    font-family: garamond;
+    color: #1552bd;
+    font-size: 100px;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    transform: rotate(90deg);
+    padding: 30px;
+    border-radius: 25px;
+    text-align: center;
+    padding-top: 10px;
+}
+#form_container {
+    width: 262px;
+    border: 2px solid dodgerblue;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+.text_type_input {
+    width: 250px;
+    margin: 5px auto;
+    border:2px solid #373f66;
+    border-radius: 5px;
+    height: 20px;
+    padding: 2px;
+    transition: all .1s ease-in-out;
+}
+.text_type_input:hover {
+    border-color: #4e5da6;
+}
+.text_type_input:active {
+    transform: scale(0.98,0.98);
+    border-color: #4e5da6;
+}
+.button_type_input {
+    color: white;
+    background-color: #1552bd;
+    margin: 5px auto;
+    border: 0px;
+    border-radius: 5px;
+    padding: 5px;
+    transition: all .1s ease-in-out;
+}
+.button_type_input:hover {
+    background-color: #1e69eb;
+}
+.button_type_input:active {
+    transform: scale(0.95,0.95);
+    background-color: #1e69eb;
+}
+#footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: 20px;
+    font-family: monospace;
+    background-color: #e6e6e6;
+    color: #999999;
+    font-size: 15px;
+    text-align: center;
+}
