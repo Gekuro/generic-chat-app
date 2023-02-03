@@ -1,5 +1,5 @@
-<img src="static/icon.png" alt="Logo" width="80px" height="80px">
-<h2 align='center'>Generic Chat App</h3><br>
+<img align='center' src="static/icon.png" alt="Logo" width="80px" height="80px">
+<h1 align='center'>Generic Chat App</h1><br>
 
 ## Project description
 
@@ -8,4 +8,5 @@ So that's about it
 
 ## Built with
 
-I have used Node.JS and Express for the server side of this project and basic HTML/CSS so far.
+Back-end: Node.JS, Express
+Database: MySQL
