@@ -24,7 +24,7 @@
     margin: 0 auto;
     margin-top: 40px;
 }
-#register_link{
+#signup_signin_link{
     position: absolute;
     right: 5px;
     bottom: 0px;
@@ -40,14 +40,14 @@
     text-decoration: none;
     font-size: 14px;
 }
-#register_link:hover{
+#signup_signin_link:hover{
     background-color: #2165da;
 }
-#register_link:active{
+#signup_signin_link:active{
     transform: scale(0.95,0.95);
     background-color: #1349a7;
 }
-#login_form{
+#signup_signin_form{
     position: relative;
 }
 .text_type_input {
@@ -92,4 +92,21 @@
     color: #999999;
     font-size: 15px;
     text-align: center;
+}
+.auth_page_message{
+    width: 300px;
+    text-align: center;
+    margin: 20px auto;
+    padding: 10px;
+    border-radius: 5px;
+}
+.red_message{
+    border: 2px solid #b01700;
+    background-color: #ffc4c3;
+    color: #b01700;
+}
+.green_message{
+    border: 2px solid #009127;
+    background-color: #abfabf;
+    color: #009127;
 }
