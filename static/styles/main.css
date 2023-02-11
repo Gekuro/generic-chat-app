@@ -28,9 +28,16 @@
     background-color: white;
     border-radius: 10px;
     width: 300px;
-    height: 80px;
+    height: 50px;
     position: relative;
     margin: 10px auto;
+    transition: all .1s ease-in-out; 
+}
+.message:hover{
+    background-color: #daeafd;
+}
+.message:active{
+    transform: scale(0.97,0.97);
 }
 .username{
     color: dodgerblue;
@@ -50,4 +57,5 @@
     top: 5px;
     right: 5px;
     width: 80px;
+    text-align: right;
 }

@@ -62,24 +62,23 @@ const db = {
 
         let latest_messages_array = [];
         for(let name in latest_messages){ // convert dict to array
-            latest_messages_array.push({'name':name, 'time':format_time(latest_messages[name].time), 'text':latest_messages[name].text});
+            latest_messages_array.push({
+                'name':name,
+                'time':latest_messages[name].time,
+                'text':latest_messages[name].text
+            });
         }
 
-        latest_messages_array.sort(compare_messages);
-        console.log(latest_messages_array);
+        latest_messages_array.sort((a, b) => (a['time'] < b['time']) ? 1 : -1);
+
+        for(const message of latest_messages_array){ // format timestamps to appropriate text
+            message.time = await this.format_time(message.time);
+            if(message.text.length > 30){ // shorten message if needed
+                message.text = message.text.substring(0,29) + '...';
+            }
+        }
 
         return latest_messages_array;
-
-        function compare_messages(a, b){
-            if(a.time < b.time)return -1;
-            if(a.time = b.time)return 0;
-            return 1;
-        }
-
-        function format_time(time){
-            // format time differently if it's today, this year etc.
-            return time;
-        }
     },
 
     async get_user_id(name) {
@@ -89,6 +88,24 @@ const db = {
         if(response[0].length == 0)throw new Error(`Cannot find user associated with the username ${name}`); // user doesn't exist
 
         return response[0][0].user_id;
+    },
+
+    async format_time(time){
+        // format time differently if it's today, this year etc.
+        const date_object = new Date(time);
+        const today = new Date();
+
+        const minutes = date_object.getMinutes().toString().padStart(2, '0');
+        const hours = date_object.getHours().toString().padStart(2, '0');
+        let [message_weekday, message_month_name, message_date, message_year] = date_object.toDateString().split(' ');
+
+        if(date_object.toDateString() == today.toDateString()){
+            return `${hours}:${minutes}`;
+        }else if((today - date_object) < 604800000){
+            return `${message_weekday}, ${hours}:${minutes}`;
+        }else{
+            return `${message_date} ${message_month_name} ${message_year}`;
+        }
     }
 
 }
