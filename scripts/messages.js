@@ -4,6 +4,7 @@ const messages = {
     register_success: 'Successfully registered! You may now log in',
     server_error: 'Internal server error. Please try again',
     wrong_credentials: 'Wrong credentials',
+    username_taken: 'Username is already taken',
 
 }
 

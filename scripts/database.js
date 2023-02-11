@@ -41,6 +41,54 @@ const db = {
         }else{
             return false;
         }
+    },
+    
+    async get_message_snippets(name) {
+        const user_id = await this.get_user_id(name);
+        const query_text = "SELECT username 'name', send_time 'time', CONCAT('You: ',content) 'text' FROM messages INNER JOIN users ON recipient_id = user_id WHERE sender_id = "+user_id+" UNION SELECT username 'name', send_time 'time', CONCAT(username,': ',content) 'text' FROM messages INNER JOIN users ON sender_id = user_id WHERE recipient_id = "+user_id+";";
+
+        const response = (await this.con.query(query_text))[0];
+        let latest_messages = {};
+
+        for(let message of response){ // keep only latest message per conversation (other user name)
+            if(latest_messages[message.name]){
+                if(message.time > latest_messages[message.name].time){
+                    latest_messages[message.name] = {'text': message.text, 'time': message.time};
+                }
+            }else{
+                latest_messages[message.name] = {'text': message.text, 'time': message.time};
+            }
+        }
+
+        let latest_messages_array = [];
+        for(let name in latest_messages){ // convert dict to array
+            latest_messages_array.push({'name':name, 'time':format_time(latest_messages[name].time), 'text':latest_messages[name].text});
+        }
+
+        latest_messages_array.sort(compare_messages);
+        console.log(latest_messages_array);
+
+        return latest_messages_array;
+
+        function compare_messages(a, b){
+            if(a.time < b.time)return -1;
+            if(a.time = b.time)return 0;
+            return 1;
+        }
+
+        function format_time(time){
+            // format time differently if it's today, this year etc.
+            return time;
+        }
+    },
+
+    async get_user_id(name) {
+        const query_text = "SELECT `user_id` FROM `users` WHERE `username` = '"+ name +"'";
+
+        const response = (await this.con.query(query_text));
+        if(response[0].length == 0)throw new Error(`Cannot find user associated with the username ${name}`); // user doesn't exist
+
+        return response[0][0].user_id;
     }
 
 }

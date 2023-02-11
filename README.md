@@ -1,4 +1,4 @@
-<img align='center' src="static/icon.png" alt="Logo" width="80px" height="80px">
+<div align='center'><img src="static/icon.png" alt="Logo" width="80px" height="80px"></div>
 <h1 align='center'>Generic Chat App</h1><br>
 
 ## Project description
@@ -16,4 +16,4 @@ Notable dependencies: bcryptJS, Handlebars
 
 Other than NodeJS, you will need to have a MySQL database running.<br />
 The database structure can be imported from 'create-database.sql' file.<br />
-The connection details can be modified in 'scripts/database.js'. (modify variable 'db_connection_params' just below imports)
+The connection details and other options can be modified in 'scripts/constants.js'.
