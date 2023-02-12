@@ -1,7 +1,7 @@
-*{
+* {
     margin: 0;
     padding: 0;
-    font-family: 'Lucida Sans';
+    font-family: 'arial';
 }
 #logo {
     font-family: garamond;
@@ -24,7 +24,7 @@
     margin: 0 auto;
     margin-top: 40px;
 }
-#signup_signin_link{
+#signup_signin_link {
     position: absolute;
     right: 5px;
     bottom: 0px;
@@ -40,14 +40,14 @@
     text-decoration: none;
     font-size: 14px;
 }
-#signup_signin_link:hover{
+#signup_signin_link:hover {
     background-color: #2165da;
 }
-#signup_signin_link:active{
+#signup_signin_link:active {
     transform: scale(0.95,0.95);
     background-color: #1349a7;
 }
-#signup_signin_form{
+#signup_signin_form {
     position: relative;
 }
 .text_type_input {
@@ -93,19 +93,19 @@
     font-size: 15px;
     text-align: center;
 }
-.auth_page_message{
+.auth_page_message {
     width: 300px;
     text-align: center;
     margin: 20px auto;
     padding: 10px;
     border-radius: 5px;
 }
-.red_message{
+.red_message {
     border: 2px solid #b01700;
     background-color: #ffc4c3;
     color: #b01700;
 }
-.green_message{
+.green_message {
     border: 2px solid #009127;
     background-color: #abfabf;
     color: #009127;

@@ -1,6 +1,6 @@
 <div id="messages_container">
     {{#each messages}}
-    <div class="message">
+    <div class="message" onclick="location.href='chat?user={{this.name}}';">
         <div class="username">{{this.name}}</div>
         <div class="content">{{this.text}}</div>
         <div class="time">{{this.time}}</div>

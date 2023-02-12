@@ -34,6 +34,24 @@ app.get('/register', async (_, res)=>{
     res.render('register', {layout: 'layouts/authentication', title: 'Sign Up'});
 });
 
+app.get('/chat*', async (req, res)=>{
+    try{
+        if(!req.session.username){
+            res.render('login', {layout: 'layouts/authentication', title: 'Log In', error_messages: [scripts.messages.no_session_chat_page]});
+        }else{
+            const messages = await scripts.db.get_conversation(req.session.username, req.query.user);
+            res.render('chat', {layout: 'layouts/main', title: `Chat with ${req.query.user}`, messages: messages})
+        }
+    }catch(err){
+        if(err.toString() == 'Unusable credentials' || !req.query.user){
+            res.send("Link was tampered with, please use the UI to enter the chat page");
+        }else{
+            res.send(scripts.messages.server_error);
+            console.log(err); // console log all unhandled exceptions for later review
+        }
+    }
+});
+
 // POST requests
 app.post('/log', async (req, res)=>{
     try{
@@ -46,7 +64,7 @@ app.post('/log', async (req, res)=>{
         }
     }catch(err){
         res.render('login', {layout: 'layouts/authentication', title: 'Log In', error_messages: [scripts.messages.server_error]});
-        console.log(err);
+        console.log(err); // console log all unhandled exceptions for later review
 
     }
 });

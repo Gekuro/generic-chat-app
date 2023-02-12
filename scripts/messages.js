@@ -5,6 +5,7 @@ const messages = {
     server_error: 'Internal server error. Please try again',
     wrong_credentials: 'Wrong credentials',
     username_taken: 'Username is already taken',
+    no_session_chat_page: 'Please log in before accessing chat page!',
 
 }
 
