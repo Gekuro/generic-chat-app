@@ -8,7 +8,7 @@ So that's about it
 
 ## Built with
 
-Back-end: Node.JS, Express<br/>
+Back-end: Node.JS, Express, Socket.IO<br/>
 Database: MySQL<br />
 Notable dependencies: bcryptJS, Handlebars
 
