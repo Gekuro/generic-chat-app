@@ -110,9 +110,11 @@ const db = {
         const hours = date_object.getHours().toString().padStart(2, '0');
         let [message_weekday, message_month_name, message_date, message_year] = date_object.toDateString().split(' ');
 
+        const WEEK_IN_MILLISECONDS = 604800000;
+
         if(date_object.toDateString() == today.toDateString()){
             return `${hours}:${minutes}`;
-        }else if((today - date_object) < 604800000){
+        }else if((today - date_object) < WEEK_IN_MILLISECONDS){
             return `${message_weekday}, ${hours}:${minutes}`;
         }else{
             return `${message_date} ${message_month_name} ${message_year}`;
@@ -130,6 +132,17 @@ const db = {
         }
 
         return messages;
+    },
+
+    async append_message(user, recipient, content) {
+        // 'user' value is provided by express-session so its safe, but 'recipient' may be modified by a user so it needs to be validated
+        if (!(await scripts.users.check_credential_validity(recipient, "Valid Password"))) throw new Error("SQL splicing attempt!");
+
+        const sender_id = this.get_user_id(user);
+        const recipient_id = this.get_user_id(recipient);
+        const query_text = `INSERT INTO messages (sender_id, recipient_id, content) VALUES ('${await sender_id}', '${await recipient_id}', '${content}')`;
+
+        await this.con.query(query_text);
     }
 
 }

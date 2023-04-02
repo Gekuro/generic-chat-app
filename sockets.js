@@ -1,10 +1,29 @@
+import scripts from './scripts/scripts.js';
+
 const setSocketEvents = (io) => {
     io.on("connection", (socket) => {
         const req = socket.request;
         const user = req.session.username;
+        const recipient = req._query['recipient'];
+
+        const room_name = (user.localeCompare(recipient) > 0) ? `${user}-${recipient}` : `${recipient}-${user}`;
+        socket.join(room_name);
 
         socket.on("send", (data) => {
-            console.log({user, data});
+            if(data && data.content && typeof data.content == "string") {
+                data = data.content;
+
+                data.replace("--", "\-\-");
+                data.replace(";", "\;");
+
+                try{
+                    scripts.db.append_message(user, recipient, data);
+                }catch(err){
+                    console.log({err, user, recipient, data});
+                }
+
+                io.to(room_name).emit("append", user, data);
+            }
         });
     });
 

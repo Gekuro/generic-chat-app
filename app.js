@@ -36,7 +36,6 @@ app.use(session_middleware);
 app.set('view engine', 'hbs');
 app.set('views', path.join(dirname, 'views'));
 
-//io.engine.use(session_middleware);
 io.use(session_wrap(session_middleware));
 
 setRoutes(app);
