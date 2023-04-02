@@ -1,6 +1,6 @@
 import scripts from "./scripts.js";
 
-const users = {
+export default {
 
     async register(name, password) {
         if(!(await this.check_credential_validity(name, password))) {
@@ -24,6 +24,4 @@ const users = {
             return false;
         }
     }
-}
-
-export default { users };
+};

@@ -16,4 +16,4 @@ Notable dependencies: bcryptJS, Handlebars
 
 Other than NodeJS, you will need to have a MySQL database running.<br />
 The database structure can be imported from 'create-database.sql' file.<br />
-The connection details and other options can be modified in 'scripts/constants.js'.
+The connection details and other options can be modified in './presets.js'.

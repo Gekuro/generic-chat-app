@@ -80,8 +80,8 @@
     bottom: 0;
     height: 20px;
     font-family: monospace;
-    background-color: #e6e6e6;
-    color: #999999;
+    background-color: #80afff;
+    color: white;
     font-size: 15px;
     text-align: center;
 }
@@ -138,4 +138,38 @@
     height: 10vh;
     width: 800px;
     margin: 0 auto;
+}
+#new_conversation_form {
+    font-family: arial;
+    background-color: #1552bd;
+    border-radius: 10px;
+    width: 300px;
+    position: relative;
+    margin: 10px auto;
+    transition: all .1s ease-in-out; 
+}
+#new_conversation_form>input {
+    width: 280px;
+    background-color: #f4f4f4;
+    color:#1552bd;
+    height: 30px;
+    font-size: large;
+    border: 0;
+    border-radius: 10px;
+    margin: 10px;
+    transition: .1s ease-in-out;
+}
+#new_conversation_form>input:focus{
+    outline: none;
+}
+#new_conversation_form>input:active{
+    transform: scale(0.98, 0.98);
+}
+#new_conversation_form>input:hover{
+    background-color: white;
+}
+#new_conversation_form>p {
+    color: white;
+    text-align: center;
+    padding-top: 5px;
 }

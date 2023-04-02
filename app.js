@@ -11,9 +11,10 @@ import path from 'path';
 import { fileURLToPath as url_to_path } from 'url';
 
 // local imports
-import scripts from './scripts/scripts.js';
-import setRoutes from './routes.js';
-import setSocketEvents from './sockets.js';
+import setRoutes from './routes.js'; // the behavior of the HTTP server is in this file
+import setSocketEvents from './sockets.js'; // the behavior of the WS server is in here
+import config from './presets.js';
+import db from './scripts/database.js';
 
 // server init
 const app = express();
@@ -22,7 +23,7 @@ const io = new Server(server);
 
 const dirname = path.dirname(url_to_path(import.meta.url));
 const session_middleware = session({
-    secret: scripts.constants.session_secret,
+    secret: config.session_secret,
     resave: true,
     saveUninitialized: true
 });
@@ -43,6 +44,10 @@ setSocketEvents(io);
 
 // start the server
 io.listen(server);
-server.listen(scripts.constants.port, () => { // for HTTP request connections
-    console.log(`Server running on port: ${scripts.constants.port}`);
+server.listen(config.port, () => { // for HTTP request connections
+    console.log(`Server running on port: ${config.port}`);
+});
+
+db.con.connect((err)=>{
+    if(err)throw new Error(err);
 });

@@ -1,16 +1,11 @@
 import scripts from "./scripts.js";
 import mysql from "mysql2/promise";
 import bcrypt from "bcryptjs";
+import config from "../presets.js";
 
-const db_connection_params = {
-    host: "localhost",
-    user: "root",
-    database: "generic_chat_app"
-}
+export default {
 
-const db = {
-
-    con: await mysql.createConnection(db_connection_params),
+    con: await mysql.createConnection(config.mysql_params),
 
     async add_user(name, password) {
         let password_hash = await bcrypt.hash(password, await bcrypt.genSalt())
@@ -146,9 +141,3 @@ const db = {
     }
 
 }
-
-db.con.connect((err)=>{
-    if(err)throw new Error(err);
-});
-
-export default { db };
