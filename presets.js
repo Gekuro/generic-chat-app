@@ -1,9 +1,10 @@
 export default {
-    port: 7777,
+    port: 8888,
     session_secret: "kNVeusrHuBgZy6Lu9ty2",
     mysql_params: {
         host: "localhost",
         user: "root",
-        database: "generic_chat_app"
+        password: "zaq1@WSX",
+        database: "generic-chat-app"
     }
 };

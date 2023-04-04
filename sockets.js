@@ -10,16 +10,15 @@ const setSocketEvents = (io) => {
         socket.join(room_name);
 
         socket.on("send", (data) => {
-            if(data && data.content && typeof data.content == "string") {
+            if (data && data.content && typeof data.content == "string") {
                 data = data.content;
 
-                data.replace("--", "\-\-");
-                data.replace(";", "\;");
+                if (data.length > 350) return;
 
                 try{
                     scripts.db.append_message(user, recipient, data);
                 }catch(err){
-                    console.log({err, user, recipient, data});
+                    console.error({err, user, recipient, data});
                 }
 
                 io.to(room_name).emit("append", user, data);
