@@ -6,5 +6,8 @@ export default {
     wrong_credentials: 'Wrong credentials',
     username_taken: 'Username is already taken',
     no_session_chat_page: 'Please log in before accessing chat page!',
+    logged_out: 'Successfully logged out. You may log in again',
+    unexisting_user: 'No such user! Please check the user name',
+    loser_chat_attempt: 'You cannot start a chat with yourself. Don\'t be a loser!'
 
 };

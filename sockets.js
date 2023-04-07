@@ -1,29 +1,17 @@
 import scripts from './scripts/scripts.js';
 
-const setSocketEvents = (io) => {
-    io.on("connection", (socket) => {
+const setSocketEvents = async (io) => {
+    io.on("connection", async (socket) => {
         const req = socket.request;
         const user = req.session.username;
-        const recipient = req._query['recipient'];
+        let recipient = req._query['recipient'];
 
-        const room_name = (user.localeCompare(recipient) > 0) ? `${user}-${recipient}` : `${recipient}-${user}`;
-        socket.join(room_name);
-
-        socket.on("send", (data) => {
-            if (data && data.content && typeof data.content == "string") {
-                data = data.content;
-
-                if (data.length > 350) return;
-
-                try{
-                    scripts.db.append_message(user, recipient, data);
-                }catch(err){
-                    console.error({err, user, recipient, data});
-                }
-
-                io.to(room_name).emit("append", user, data);
-            }
-        });
+        if (recipient) {
+            recipient = await scripts.db.get_username_capitalization(recipient);
+            handle_chat_connection(socket, user, recipient, io);
+        } else {
+            handle_messages_page_connection(socket, user);
+        }
     });
 
     io.use((socket, next) => {
@@ -35,5 +23,30 @@ const setSocketEvents = (io) => {
         }
     });
 }
+
+const handle_chat_connection = async (socket, user, recipient, io) => {
+    socket.join(user);
+
+    socket.on("send", (data) => {
+        if (data && data.content && typeof data.content == "string") {
+            data = data.content;
+
+            if (data.length > 350) return;
+
+            try{
+                scripts.db.append_message(user, recipient, data);
+            }catch(err){
+                console.error({err, user, recipient, data});
+            }
+
+            io.to(user).emit("append", user, recipient, data);
+            io.to(recipient).emit("append", user, recipient, data);
+        }
+    });
+};
+
+const handle_messages_page_connection = async (socket, user) => {
+    socket.join(user);
+};
 
 export default setSocketEvents;

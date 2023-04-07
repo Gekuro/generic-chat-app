@@ -34,6 +34,15 @@ export default {
             return false;
         }
     },
+
+    async get_username_capitalization(name) {
+        const response = (await this.con.query("SELECT username FROM users WHERE username = ?", [name]));
+        if (!response[0]) {
+            console.log({name, response});
+            throw new Error("No such user!");
+        }
+        return response[0][0].username;
+    },
     
     async get_message_snippets(name) {
         const user_id = await this.get_user_id(name);
@@ -91,8 +100,6 @@ export default {
     },
 
     async get_messages(sender_id, recipient_id) {
-        const query_text = `SELECT send_time 'time', content 'text' FROM messages WHERE recipient_id = ${recipient_id} AND sender_id = ${sender_id};`;
-
         return (await this.con.query(
             "SELECT send_time 'time', content 'text' FROM messages WHERE recipient_id = ? AND sender_id = ?;",
             [recipient_id, sender_id]

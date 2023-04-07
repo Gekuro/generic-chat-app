@@ -1,6 +1,6 @@
 export default {
     port: 8888,
-    session_secret: "kNVeusrHuBgZy6Lu9ty2",
+    session_secret: "change me!",
     mysql_params: {
         host: "localhost",
         user: "root",

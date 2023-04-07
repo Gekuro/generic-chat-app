@@ -11,14 +11,16 @@ const socket = io.connect(window.location.host, {
     reconnectionDelayMax: 10000,
 });
 
-socket.on("append", (sender, content) => {
+socket.on("append", (sender, recipient, content) => {
+    // if message was sent by current user on different tab, and is not a part of this conversation, do nothing
+    if(other_user.toLocaleLowerCase() != recipient.toLocaleLowerCase() && other_user.toLocaleLowerCase() != sender.toLocaleLowerCase()) return; 
+
     const direction = (other_user == sender) ? "direction_in" : "direction_out";
-    console.log(direction, content);
 
     let message_dom_element = create_message_element(content, direction);
 
     document.querySelector("div#chat_container").prepend(message_dom_element);
-})
+});
 
 // message textbox functionality
 sender_box.addEventListener("keypress", (event) => {
@@ -35,9 +37,9 @@ sender_box.addEventListener("keypress", (event) => {
     }
 });
 
-function create_message_element(content, direction) {
+const create_message_element = (content, direction) => {
     const current_time = new Date();
-    const current_time_text = `${current_time.getHours()}:${current_time.getMinutes()}`;
+    const current_time_text = `${current_time.getHours()}:${('0'+current_time.getMinutes()).slice(-2)}`;
 
     const message_wrap = document.createElement("div");
     message_wrap.className = "chat_message_wrap";
@@ -54,5 +56,4 @@ function create_message_element(content, direction) {
     message_wrap.appendChild(message_element);
     
     return message_wrap;
-}
-
+};

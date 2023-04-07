@@ -1,112 +1,141 @@
-* {
-    margin: 0;
-    padding: 0;
-    font-family: 'arial';
+*
+{
+	font-family:arial;
+	margin:0;
+	padding:0;
 }
-#logo {
-    font-family: garamond;
-    color: #1552bd;
-    font-size: 100px;
-    width: 100px;
-    height: 100px;
-    margin: 0 auto;
-    transform: rotate(90deg);
-    padding: 30px;
-    border-radius: 25px;
-    text-align: center;
-    padding-top: 10px;
+
+.auth_page_message
+{
+	border-radius:5px;
+	margin:20px auto;
+	padding:10px;
+	text-align:center;
+	width:300px;
 }
-#form_container {
-    width: 262px;
-    border: 2px solid dodgerblue;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 0 auto;
-    margin-top: 40px;
+
+.button_type_input
+{
+	background-color:#1552bd;
+	border:0;
+	border-radius:5px;
+	color:#FFF;
+	margin:5px auto;
+	padding:5px;
+	transition:all .1s ease-in-out;
 }
-#signup_signin_link {
-    position: absolute;
-    right: 5px;
-    bottom: 0px;
-    color: white;
-    background-color: #4388ff;
-    margin: 5px auto;
-    border: 0px;
-    border-radius: 5px;
-    padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    transition: all .1s ease-in-out;
-    text-decoration: none;
-    font-size: 14px;
+
+.button_type_input:active
+{
+	background-color:#1e69eb;
+	transform:scale(0.95,0.95);
 }
-#signup_signin_link:hover {
-    background-color: #2165da;
+
+.button_type_input:hover
+{
+	background-color:#1e69eb;
 }
-#signup_signin_link:active {
-    transform: scale(0.95,0.95);
-    background-color: #1349a7;
+
+.green_message
+{
+	background-color:#abfabf;
+	border:2px solid #009127;
+	color:#009127;
 }
-#signup_signin_form {
-    position: relative;
+
+.red_message
+{
+	background-color:#ffc4c3;
+	border:2px solid #b01700;
+	color:#b01700;
 }
-.text_type_input {
-    width: 250px;
-    margin: 5px auto;
-    border:2px solid #373f66;
-    border-radius: 5px;
-    height: 20px;
-    padding: 2px;
-    transition: all .1s ease-in-out;
+
+.text_type_input
+{
+	border:2px solid #373f66;
+	border-radius:5px;
+	height:20px;
+	margin:5px auto;
+	padding:2px;
+	transition:all .1s ease-in-out;
+	width:250px;
 }
-.text_type_input:hover {
-    border-color: #4e5da6;
+
+.text_type_input:active
+{
+	border-color:#4e5da6;
+	transform:scale(0.98,0.98);
 }
-.text_type_input:active {
-    transform: scale(0.98,0.98);
-    border-color: #4e5da6;
+
+.text_type_input:hover
+{
+	border-color:#4e5da6;
 }
-.button_type_input {
-    color: white;
-    background-color: #1552bd;
-    margin: 5px auto;
-    border: 0px;
-    border-radius: 5px;
-    padding: 5px;
-    transition: all .1s ease-in-out;
+
+#footer
+{
+	background-color:#80afff;
+	bottom:0;
+	color:#FFF;
+	font-family:monospace;
+	font-size:15px;
+	height:20px;
+	position:absolute;
+	text-align:center;
+	width:100%;
 }
-.button_type_input:hover {
-    background-color: #1e69eb;
+
+#form_container
+{
+	border:2px solid #1E90FF;
+	border-radius:10px;
+	margin:40px auto 0;
+	padding:10px;
+	width:262px;
 }
-.button_type_input:active {
-    transform: scale(0.95,0.95);
-    background-color: #1e69eb;
+
+#logo
+{
+	border-radius:25px;
+	color:#1552bd;
+	font-family:garamond;
+	font-size:100px;
+	height:100px;
+	margin:0 auto;
+	padding:10px 30px 30px;
+	text-align:center;
+	transform:rotate(90deg);
+	width:100px;
 }
-#footer {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    height: 20px;
-    font-family: monospace;
-    background-color: #80afff;
-    color: white;
-    font-size: 15px;
-    text-align: center;
+
+#signup_signin_form
+{
+	position:relative;
 }
-.auth_page_message {
-    width: 300px;
-    text-align: center;
-    margin: 20px auto;
-    padding: 10px;
-    border-radius: 5px;
+
+#signup_signin_link
+{
+	background-color:#4388ff;
+	border:0;
+	border-radius:5px;
+	bottom:0;
+	color:#FFF;
+	font-size:14px;
+	margin:5px auto;
+	padding:5px 10px;
+	position:absolute;
+	right:5px;
+	text-decoration:none;
+	transition:all .1s ease-in-out;
 }
-.red_message {
-    border: 2px solid #b01700;
-    background-color: #ffc4c3;
-    color: #b01700;
+
+#signup_signin_link:active
+{
+	background-color:#1349a7;
+	transform:scale(0.95,0.95);
 }
-.green_message {
-    border: 2px solid #009127;
-    background-color: #abfabf;
-    color: #009127;
+
+#signup_signin_link:hover
+{
+	background-color:#2165da;
 }

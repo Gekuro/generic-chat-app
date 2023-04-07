@@ -9,7 +9,10 @@
     <form id="new_conversation_form" method="GET" action="/chat">
         <p>Message new user</p>
         <input type="text" name="user">
-    </div>
+    </form>
+    {{#each error_messages}}
+    <div class="error_message">{{this}}</div>
+    {{/each}}
 </div>
 
 <script type="module" src="scripts/messages.js"></script>
