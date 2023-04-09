@@ -1,17 +1,13 @@
-<div id="no_scrollbar_wrap">
-    <div id="chat_container">
-        {{#each messages}}
-        <div class="chat_message_wrap">
-            <div class="chat_message direction_{{this.direction}}">
-                {{this.text}}
-                <div class="date_container">{{this.time}}</div>
-            </div>
+<div id="chat_container">
+    {{#each messages}}
+    <div class="chat_message_wrap">
+        <div class="chat_message direction_{{this.direction}}">
+            {{this.text}}
+            <div class="date_container">{{this.time}}</div>
         </div>
-        {{/each}}
     </div>
-    <div id="sender_conainer">
-        <textarea type="text" id="message_input" rows="3" maxlength="350"></textarea>
-    </div>
+    {{/each}}
 </div>
+<textarea type="text" id="message_input" rows="3" maxlength="350"></textarea>
 
 <script type="module" src="scripts/chat.js"></script>
