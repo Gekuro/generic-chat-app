@@ -68,7 +68,6 @@ const setRoutes = (server) => {
             res.render('login', {layout: 'layouts/authentication', title: 'Log In', success_messages: [scripts.messages.register_success]});
             
         }catch(err){
-            console.error(err);
             if(err.toString().includes("Credentials are not fit to register!")){
                 res.render('register', {layout: 'layouts/authentication', title: 'Sign Up', error_messages: [scripts.messages.credential_requirements_not_met]});
 

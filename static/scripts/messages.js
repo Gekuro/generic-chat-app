@@ -19,7 +19,7 @@ socket.on("append", (sender, recipient, content) => {
         content = content.substring(0,29) + '...';
     }
 
-    if (current_user == sender){
+    if (current_user != sender){
         content = `${sender}: ${content}`;
         if (conversation_button) {
             update_conversation_element('You', content, conversation_button);
