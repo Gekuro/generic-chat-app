@@ -15,7 +15,7 @@ socket.on("append", (sender, recipient, content) => {
     // if message was sent by current user on different tab, and is not a part of this conversation, do nothing
     if(other_user.toLocaleLowerCase() != recipient.toLocaleLowerCase() && other_user.toLocaleLowerCase() != sender.toLocaleLowerCase()) return; 
 
-    const direction = (other_user == sender) ? "direction_in" : "direction_out";
+    const direction = (other_user.toLocaleLowerCase() == sender.toLocaleLowerCase()) ? "direction_in" : "direction_out";
 
     let message_dom_element = create_message_element(content, direction);
 

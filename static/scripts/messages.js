@@ -12,26 +12,26 @@ socket.on("append", (sender, recipient, content) => {
 
     const conversation_button = conversation_buttons.find(element => {
         const name = element.querySelector(".username").innerText;
-        return ((name == sender || name == recipient) ? true : false);
+        return ((name.toLocaleLowerCase() == sender.toLocaleLowerCase() || name.toLocaleLowerCase() == recipient.toLocaleLowerCase()) ? true : false);
     });
 
     if (content.length > 30){
         content = content.substring(0,29) + '...';
     }
 
-    if (current_user != sender){
+    if (current_user.toLocaleLowerCase() != sender.toLocaleLowerCase()){
         content = `${sender}: ${content}`;
         if (conversation_button) {
             update_conversation_element('You', content, conversation_button);
         }else{
-            create_conversation_element(recipient, content);
+            create_conversation_element(sender, content);
         }
     }else{
         content = `You: ${content}`;
         if (conversation_button) {
-            update_conversation_element(sender, content, conversation_button);
+            update_conversation_element(recipient, content, conversation_button);
         }else{
-            create_conversation_element(sender, content);
+            create_conversation_element(recipient, content);
         }
     };
 });
@@ -64,7 +64,7 @@ const create_conversation_element = async (other_user, content) => {
     date_element.innerText = current_time_text;
 
     conversation_wrap.append(username_element, content_element, date_element);
-    conversation_wrap.setAttribute("onclick", "location.href='chat?user={{this.name}}';");
+    conversation_wrap.setAttribute("onclick", `location.href='chat?user=${other_user}';`);
 
     document.querySelector("div#messages_container").prepend(conversation_wrap);
 };

@@ -1,6 +1,6 @@
 // frameworks
 import express from 'express';
-import { Server } from 'socket.io';
+import { Server as SocketServer } from 'socket.io';
 import http from 'http';
 
 // other dependencies
@@ -19,7 +19,7 @@ import db from './scripts/database.js';
 // server init
 const app = express();
 const server = http.Server(app);
-const io = new Server(server);
+const io = new SocketServer(server);
 
 const dirname = path.dirname(url_to_path(import.meta.url));
 const session_middleware = session({
