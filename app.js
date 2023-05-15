@@ -1,12 +1,14 @@
 // frameworks
 import express from 'express';
 import { Server as SocketServer } from 'socket.io';
-import http from 'http';
 
 // other dependencies
+import redis from 'redis';
+import RedisStore from 'connect-redis';
 import session from 'express-session';
 import favicon from 'serve-favicon';
 import cookie_parser from 'cookie-parser';
+import http from 'http';
 import path from 'path';
 import { fileURLToPath as url_to_path } from 'url';
 
@@ -21,11 +23,18 @@ const app = express();
 const server = http.Server(app);
 const io = new SocketServer(server);
 
+// Redis init
+const redis_client = redis.createClient(config.redis_params);
+redis_client.connect();
+redis_client.on("error", (err) => console.error(`Error connecting to Redis: ${err}`));
+
 const dirname = path.dirname(url_to_path(import.meta.url));
 const session_middleware = session({
+    store: new RedisStore({ client: redis_client, prefix: config.redis_val_prefix }),
     secret: config.session_secret,
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: config.cookie_presets
 });
 const session_wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
 
