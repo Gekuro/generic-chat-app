@@ -7,6 +7,8 @@ export default {
 
     con: await mysql.createConnection(config.mysql_params),
 
+    // create operations
+
     async add_user(name, password) {
         let password_hash = await bcrypt.hash(password, await bcrypt.genSalt())
 
@@ -22,18 +24,21 @@ export default {
         }
     },
 
-    async validate_user(name, password) {
-        const response = (await this.con.query("SELECT password FROM users WHERE username = ?", [name]));
-        if(response[0].length == 0)return false; // user doesn't exist
+    async append_message(user, recipient, content) {
+        // 'user' value is provided by express-session so its safe, but 'recipient' may be modified by a user so it needs to be validated
+        if (!(await scripts.users.check_credential_validity(recipient, "Valid Password"))) throw new Error("SQL splicing attempt!");
 
-        let correct_password_hash = response[0][0].password;
+        const sender_id = this.get_user_id(user);
+        const recipient_id = this.get_user_id(recipient);
+        const query_text = `INSERT INTO messages (sender_id, recipient_id, content) VALUES ('${await sender_id}', '${await recipient_id}', '${content}')`;
 
-        if(await bcrypt.compare(password, correct_password_hash)){
-            return true;
-        }else{
-            return false;
-        }
+        await this.con.query(
+            "INSERT INTO messages (sender_id, recipient_id, content) VALUES (?, ?, ?)",
+            [await sender_id, await recipient_id, content]
+        );
     },
+
+    // read operations
 
     async get_username_capitalization(name) {
         const response = (await this.con.query("SELECT username FROM users WHERE username = ?", [name]));
@@ -80,7 +85,7 @@ export default {
             "SELECT user_id FROM users WHERE username = ?",
             [name]
         ));
-        if(response[0].length == 0)throw new Error(`Cannot find user associated with the username ${name}`); // user doesn't exist
+        if(response[0].length === 0)throw new Error(`Cannot find user associated with the username ${name}`); // user doesn't exist
 
         return response[0][0].user_id;
     },
@@ -106,6 +111,8 @@ export default {
         ))[0];
     },
 
+    // validation and formatting
+
     async format_time(time){
         // format time differently if it's today, this year etc.
         const date_object = new Date(time);
@@ -117,7 +124,7 @@ export default {
 
         const WEEK_IN_MILLISECONDS = 604800000;
 
-        if(date_object.toDateString() == today.toDateString()){
+        if(date_object.toDateString() === today.toDateString()){
             return `${hours}:${minutes}`;
         }else if((today - date_object) < WEEK_IN_MILLISECONDS){
             return `${message_weekday}, ${hours}:${minutes}`;
@@ -138,19 +145,19 @@ export default {
 
         return messages;
     },
+    
+    async validate_user(name, password) {
+        const response = (await this.con.query("SELECT password FROM users WHERE username = ?", [name]));
+        if(response[0].length === 0)return false; // user doesn't exist
 
-    async append_message(user, recipient, content) {
-        // 'user' value is provided by express-session so its safe, but 'recipient' may be modified by a user so it needs to be validated
-        if (!(await scripts.users.check_credential_validity(recipient, "Valid Password"))) throw new Error("SQL splicing attempt!");
+        let correct_password_hash = response[0][0].password;
 
-        const sender_id = this.get_user_id(user);
-        const recipient_id = this.get_user_id(recipient);
-        const query_text = `INSERT INTO messages (sender_id, recipient_id, content) VALUES ('${await sender_id}', '${await recipient_id}', '${content}')`;
+        if(await bcrypt.compare(password, correct_password_hash)){
+            return true;
+        }else{
+            return false;
+        }
+    },
 
-        await this.con.query(
-            "INSERT INTO messages (sender_id, recipient_id, content) VALUES (?, ?, ?)",
-            [await sender_id, await recipient_id, content]
-        );
-    }
 
 }

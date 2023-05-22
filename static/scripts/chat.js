@@ -1,6 +1,7 @@
 import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
 
 // getting recipient name from url query
+
 const url = window.location.href;
 const searchParams = new URLSearchParams(url.substring(url.indexOf('?')));
 const other_user = searchParams.get("user");
@@ -13,9 +14,9 @@ const socket = io.connect(window.location.host, {
 
 socket.on("append", (sender, recipient, content) => {
     // if message was sent by current user on different tab, and is not a part of this conversation, do nothing
-    if(other_user.toLocaleLowerCase() != recipient.toLocaleLowerCase() && other_user.toLocaleLowerCase() != sender.toLocaleLowerCase()) return; 
+    if(other_user.toLocaleLowerCase() !== recipient.toLocaleLowerCase() && other_user.toLocaleLowerCase() !== sender.toLocaleLowerCase()) return; 
 
-    const direction = (other_user.toLocaleLowerCase() == sender.toLocaleLowerCase()) ? "direction_in" : "direction_out";
+    const direction = (other_user.toLocaleLowerCase() === sender.toLocaleLowerCase()) ? "direction_in" : "direction_out";
 
     let message_dom_element = create_message_element(content, direction);
 
@@ -23,11 +24,12 @@ socket.on("append", (sender, recipient, content) => {
 });
 
 // message textbox functionality
+
 sender_box.addEventListener("keypress", (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault();
 
-        if (sender_box.value.length == 0){
+        if (sender_box.value.length === 0){
             console.error("Return was pressed but there's no data to be sent!");
         } else {
             socket.emit("send", {content: sender_box.value});

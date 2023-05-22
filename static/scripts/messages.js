@@ -12,14 +12,14 @@ socket.on("append", (sender, recipient, content) => {
 
     const conversation_button = conversation_buttons.find(element => {
         const name = element.querySelector(".username").innerText;
-        return ((name.toLocaleLowerCase() == sender.toLocaleLowerCase() || name.toLocaleLowerCase() == recipient.toLocaleLowerCase()) ? true : false);
+        return ((name.toLocaleLowerCase() === sender.toLocaleLowerCase() || name.toLocaleLowerCase() === recipient.toLocaleLowerCase()) ? true : false);
     });
 
     if (content.length > 30){
         content = content.substring(0,29) + '...';
     }
 
-    if (current_user.toLocaleLowerCase() != sender.toLocaleLowerCase()){
+    if (current_user.toLocaleLowerCase() !== sender.toLocaleLowerCase()){
         content = `${sender}: ${content}`;
         if (conversation_button) {
             update_conversation_element('You', content, conversation_button);
