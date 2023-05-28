@@ -30,7 +30,6 @@ export default {
 
         const sender_id = this.get_user_id(user);
         const recipient_id = this.get_user_id(recipient);
-        const query_text = `INSERT INTO messages (sender_id, recipient_id, content) VALUES ('${await sender_id}', '${await recipient_id}', '${content}')`;
 
         await this.con.query(
             "INSERT INTO messages (sender_id, recipient_id, content) VALUES (?, ?, ?)",
@@ -56,6 +55,7 @@ export default {
             "SELECT username 'name', send_time 'time', CONCAT('You: ',content) 'text' FROM messages INNER JOIN users ON recipient_id = user_id WHERE sender_id = ? UNION SELECT username 'name', send_time 'time', CONCAT(username,': ',content) 'text' FROM messages INNER JOIN users ON sender_id = user_id WHERE recipient_id = ?;",
             [user_id, user_id]
             ))[0];
+
         let latest_messages = {};
 
         for(let message of response){ // keep only latest message per conversation (other user name)
@@ -69,6 +69,7 @@ export default {
         }
 
         let latest_messages_array = [];
+
         for(let name in latest_messages){ // convert dict to array
             latest_messages_array.push({
                 'name':name,
@@ -126,10 +127,13 @@ export default {
 
         if(date_object.toDateString() === today.toDateString()){
             return `${hours}:${minutes}`;
+
         }else if((today - date_object) < WEEK_IN_MILLISECONDS){
             return `${message_weekday}, ${hours}:${minutes}`;
+
         }else{
             return `${message_date} ${message_month_name} ${message_year}`;
+
         }
     },
 

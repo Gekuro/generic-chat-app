@@ -1,6 +1,6 @@
 import scripts from './scripts/scripts.js';
 
-const setSocketEvents = async (io) => {
+const set_socket_events = async (io) => {
     io.on("connection", async (socket) => {
         const req = socket.request;
         const user = req.session.username;
@@ -49,4 +49,4 @@ const handle_messages_page_connection = async (socket, user) => {
     socket.join(user);
 };
 
-export default setSocketEvents;
+export default set_socket_events;

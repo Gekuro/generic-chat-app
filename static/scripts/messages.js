@@ -15,28 +15,29 @@ socket.on("append", (sender, recipient, content) => {
         return ((name.toLocaleLowerCase() === sender.toLocaleLowerCase() || name.toLocaleLowerCase() === recipient.toLocaleLowerCase()) ? true : false);
     });
 
-    if (content.length > 30){
-        content = content.substring(0,29) + '...';
-    }
+    const parse_message_and_update_element = async (prefix, other_user) => {
+        content = `${prefix}: ${content}`;
+
+        if (content.length > 30){
+            content = content.substring(0,29) + '...';
+        };
+
+        if (conversation_button) {
+            update_conversation_element(content, conversation_button);
+        }else{
+            create_conversation_element(other_user, content);
+        }
+    };
 
     if (current_user.toLocaleLowerCase() !== sender.toLocaleLowerCase()){
-        content = `${sender}: ${content}`;
-        if (conversation_button) {
-            update_conversation_element('You', content, conversation_button);
-        }else{
-            create_conversation_element(sender, content);
-        }
+        parse_message_and_update_element(sender, sender);
+        // the latest message in conversation with user x was sent by user x
     }else{
-        content = `You: ${content}`;
-        if (conversation_button) {
-            update_conversation_element(recipient, content, conversation_button);
-        }else{
-            create_conversation_element(recipient, content);
-        }
+        parse_message_and_update_element("You", recipient);
     };
 });
 
-const update_conversation_element = async (sender, content, element) => {
+const update_conversation_element = async (content, element) => {
     const current_time = new Date();
     const current_time_text = `${current_time.getHours()}:${('0'+current_time.getMinutes()).slice(-2)}`;
 

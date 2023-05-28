@@ -13,15 +13,15 @@ import path from 'path';
 import { fileURLToPath as url_to_path } from 'url';
 
 // local imports
-import setRoutes from './routes.js'; // the behavior of the HTTP server is in this file
-import setSocketEvents from './sockets.js'; // the behavior of the WS server is in here
+import set_routes from './routes.js'; // the behavior of the HTTP server is in this file
+import set_socket_events from './sockets.js'; // the behavior of the WS server is in here
 import config from './presets.js';
 import db from './scripts/database.js';
 
 // server init
-const app = express();
-const server = http.Server(app);
-const io = new SocketServer(server);
+const express_app = express();
+const server = http.Server(express_app);
+const socket_io = new SocketServer(server);
 
 // Redis init
 const redis_client = redis.createClient(config.redis_params);
@@ -36,23 +36,22 @@ const session_middleware = session({
     saveUninitialized: true,
     cookie: config.cookie_presets
 });
-const session_wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
 
-app.use(express.static('static'));
-app.use(favicon(path.join(dirname, 'static/favicon.ico')));
-app.use(express.urlencoded({extended: true}));
-app.use(cookie_parser());
-app.use(session_middleware);
-app.set('view engine', 'hbs');
-app.set('views', path.join(dirname, 'views'));
+express_app.use(express.static('static'));
+express_app.use(favicon(path.join(dirname, 'static/favicon.ico')));
+express_app.use(express.urlencoded({extended: true}));
+express_app.use(cookie_parser());
+express_app.use(session_middleware);
+express_app.set('view engine', 'hbs');
+express_app.set('views', path.join(dirname, 'views'));
 
-io.use(session_wrap(session_middleware));
+socket_io.use((socket, next) => session_middleware(socket.request, {}, next));
 
-setRoutes(app);
-setSocketEvents(io);
+set_routes(express_app);
+set_socket_events(socket_io);
 
 // start the server
-io.listen(server);
+socket_io.listen(server);
 server.listen(config.port, () => {
     console.log(`Server running on port: ${config.port}`);
 });

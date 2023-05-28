@@ -1,6 +1,6 @@
 import scripts from './scripts/scripts.js';
 
-const setRoutes = (server) => {
+const set_routes = (server) => {
     // GET requests
     server.get('/', async (req, res)=>{
         if(req.session.username){
@@ -82,4 +82,4 @@ const setRoutes = (server) => {
     });
 }
 
-export default setRoutes;
+export default set_routes;
