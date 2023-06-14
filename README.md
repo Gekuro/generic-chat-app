@@ -40,7 +40,7 @@ Bash:
     npm i
  ```
 ## Specify the connection details and run:
- Edit the .\presets.js file, to specify credentials and addresses of the Redis and MySQL server instances.
+ Edit the .env file, to specify credentials, the session secret and addresses of the Redis and MySQL server instances.
  If everything seems in order, run the application:
  ```
     npm start
