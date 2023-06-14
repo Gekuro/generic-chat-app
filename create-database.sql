@@ -11,7 +11,7 @@ CREATE TABLE `messages` (
 
 CREATE TABLE `users` (
   `user_id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `username` varchar(18) NOT NULL,
+  `username` varchar(18) NOT NULL UNIQUE,
   `password` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 

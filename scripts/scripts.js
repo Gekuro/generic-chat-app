@@ -1,5 +1,5 @@
 import users from './users.js';
 import db from './database.js';
-import messages from './text-values.js';
+import text_values from './text-values.js';
 
-export default { users, db, messages }
+export default { users, db, text_values }

@@ -1,11 +1,15 @@
 import scripts from "./scripts.js";
 import mysql from "mysql2/promise";
 import bcrypt from "bcryptjs";
-import config from "../presets.js";
 
 export default {
 
-    con: await mysql.createConnection(config.mysql_params),
+    con: await mysql.createConnection({
+        host: process.env.MYSQL_URL,
+        user: process.env.MYSQL_USER,
+        password: process.env.MYSQL_PWD,
+        database: process.env.MYSQL_DB,
+    }),
 
     // create operations
 
@@ -78,7 +82,7 @@ export default {
             });
         }
 
-        return (await this.sort_and_format_messages_array(latest_messages_array, true));
+        return (await scripts.text_values.sort_and_format_messages_array(latest_messages_array, true));
     },
 
     async get_user_id(name) {
@@ -102,7 +106,7 @@ export default {
         const all_messages = [...outgoing_messages.map(message => ({...message, "direction":"out"})),
         ...incoming_messages.map(message => ({...message, "direction":"in"}))];
 
-        return (await this.sort_and_format_messages_array(all_messages));
+        return (await scripts.text_values.sort_and_format_messages_array(all_messages));
     },
 
     async get_messages(sender_id, recipient_id) {
@@ -113,42 +117,6 @@ export default {
     },
 
     // validation and formatting
-
-    async format_time(time){
-        // format time differently if it's today, this year etc.
-        const date_object = new Date(time);
-        const today = new Date();
-
-        const minutes = date_object.getMinutes().toString().padStart(2, '0');
-        const hours = date_object.getHours().toString().padStart(2, '0');
-        let [message_weekday, message_month_name, message_date, message_year] = date_object.toDateString().split(' ');
-
-        const WEEK_IN_MILLISECONDS = 604800000;
-
-        if(date_object.toDateString() === today.toDateString()){
-            return `${hours}:${minutes}`;
-
-        }else if((today - date_object) < WEEK_IN_MILLISECONDS){
-            return `${message_weekday}, ${hours}:${minutes}`;
-
-        }else{
-            return `${message_date} ${message_month_name} ${message_year}`;
-
-        }
-    },
-
-    async sort_and_format_messages_array(messages, shorten_messages=false) {
-        messages.sort((a, b) => (a['time'] < b['time']) ? 1 : -1);
-
-        for(const message of messages){ // format timestamps to appropriate text
-            message.time = await this.format_time(message.time);
-            if(message.text.length > 30 && shorten_messages){ // shorten message if needed
-                message.text = message.text.substring(0,29) + '...';
-            }
-        }
-
-        return messages;
-    },
     
     async validate_user(name, password) {
         const response = (await this.con.query("SELECT password FROM users WHERE username = ?", [name]));

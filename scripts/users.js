@@ -10,7 +10,10 @@ export default {
     },
 
     async login(name, password) {
-        return (await scripts.db.validate_user(name, password) && (await this.check_credential_validity(name, password)));
+        if(!(await this.check_credential_validity(name, password))) {
+            return false;
+        }
+        return await scripts.db.validate_user(name, password);
     },
 
     async check_credential_validity(name, password) {
