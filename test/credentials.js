@@ -62,4 +62,8 @@ describe('checking the validity of provided credentials', async () => {
 
     });
 
+    after(async () => {
+        await scripts.db.con.close();
+    });
+
 });

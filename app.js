@@ -39,7 +39,7 @@ const session_middleware = session({
     secret: process.env.HTTP_SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
-    cookie: { secure: process.env.LIMIT_COOKIES_TO_HTTP }
+    cookie: { secure: (process.env.LIMIT_COOKIES_TO_HTTPS === "true") }
 });
 
 express_app.use(express.static('static'));

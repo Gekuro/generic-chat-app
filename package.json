@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "start-dev": "nodemon app.js",
-    "test": "mocha"
+    "test": "mocha",
+    "e2e": "mocha --recursive --timeout 10000"
   },
   "author": "Piotr Kmieć",
   "license": "ISC",
@@ -19,7 +20,6 @@
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "hbs": "^4.2.0",
-    "mocha": "^10.2.0",
     "mysql2": "^3.1.0",
     "node": "^19.8.1",
     "redis": "^4.6.6",
@@ -27,7 +27,10 @@
     "socket.io": "^4.6.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "nodemon": "^2.0.20",
+    "puppeteer": "^20.7.1"
   },
   "type": "module"
 }

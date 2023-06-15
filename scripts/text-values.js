@@ -14,7 +14,7 @@ export default {
 
     // formatting methods
 
-    format_time: async (time) => {
+    async format_time(time) {
         const date_object = new Date(time);
         const today = new Date();
 
@@ -36,7 +36,7 @@ export default {
         }
     },
 
-    sort_and_format_messages_array: async (messages, shorten_messages=false) => {
+    async sort_and_format_messages_array(messages, shorten_messages=false) {
         messages.sort((a, b) => (a['time'] < b['time']) ? 1 : -1);
 
         for(const message of messages){ // format timestamps to appropriate text

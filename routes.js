@@ -15,8 +15,6 @@ const set_routes = (server) => {
     });
 
     server.get('/chat*', async (req, res)=>{
-        // TODO: handle non-existing users and wrong creds
-
         try{
             if(!req.session.username){
                 res.render('login', {layout: 'layouts/authentication', title: 'Log In', error_messages: [scripts.text_values.no_session_chat_page]});
