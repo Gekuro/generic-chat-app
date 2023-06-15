@@ -9,18 +9,18 @@ const set_socket_events = async (io) => {
         if (recipient) {
             recipient = await scripts.db.get_username_capitalization(recipient);
             handle_chat_connection(socket, user, recipient, io);
-        } else {
-            handle_messages_page_connection(socket, user);
+            return;
         }
+        handle_messages_page_connection(socket, user);
     });
 
     io.use((socket, next) => {
         const session = socket.request.session;
         if (session && session.username) {
             next();
-        } else {
-            next(new Error("Unauthorized connection attempt!"));
+            return;
         }
+        next(new Error("Unauthorized connection attempt!"));
     });
 }
 
@@ -28,20 +28,20 @@ const handle_chat_connection = async (socket, user, recipient, io) => {
     socket.join(user);
 
     socket.on("send", (data) => {
-        if (data && data.content && typeof data.content == "string") {
-            data = data.content;
+        if (!data || !data.content || typeof data.content !== "string") return;
 
-            if (data.length > 350) return;
+        data = data.content;
 
-            try{
-                scripts.db.append_message(user, recipient, data);
-            }catch(err){
-                console.error({err, user, recipient, data});
-            }
+        if (data.length > 350) return;
 
-            io.to(user).emit("append", user, recipient, data);
-            io.to(recipient).emit("append", user, recipient, data);
+        try{
+            scripts.db.append_message(user, recipient, data);
+        }catch(err){
+            console.error({err, user, recipient, data});
         }
+
+        io.to(user).emit("append", user, recipient, data);
+        io.to(recipient).emit("append", user, recipient, data);
     });
 };
 

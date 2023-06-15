@@ -26,17 +26,16 @@ socket.on("append", (sender, recipient, content) => {
 // message textbox functionality
 
 sender_box.addEventListener("keypress", (event) => {
-    if (event.key === "Enter" && !event.shiftKey) {
-        event.preventDefault();
+    if (event.key !== "Enter" || event.shiftKey) return;
 
-        if (sender_box.value.length === 0){
-            console.error("Return was pressed but there's no data to be sent!");
-        } else {
-            socket.emit("send", {content: sender_box.value});
-        }
+    event.preventDefault();
 
-        sender_box.value = "";
+    if (sender_box.value.length === 0){
+        console.error("Return was pressed but there's no data to be sent!");
+        return;
     }
+    socket.emit("send", {content: sender_box.value});
+    sender_box.value = "";
 });
 
 const create_message_element = (content, direction) => {

@@ -24,7 +24,8 @@
     "node": "^19.8.1",
     "redis": "^4.6.6",
     "serve-favicon": "^2.5.0",
-    "socket.io": "^4.6.1"
+    "socket.io": "^4.6.1",
+    "stripe": "^12.9.0"
   },
   "devDependencies": {
     "chai": "^4.3.7",
