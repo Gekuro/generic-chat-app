@@ -10,7 +10,8 @@ The messages and user credentials are stored in a simple MySQL database. Passwor
 
 Back-end: Node.JS, Express, Socket.IO<br/>
 Databases: MySQL (users, messages), Redis (cookie sessions)<br />
-Notable dependencies: bcryptJS, Handlebars
+Testing: Mocha, Chai, Puppeteer<br />
+Other notable dependencies: bcryptJS, Handlebars
 
 # To run
 
@@ -44,6 +45,15 @@ Bash:
  If everything seems in order, run the application:
  ```
     npm start
+ ```
+## Run tests:
+ To run the automated tests execute (excluding end-to-end tests):
+ ```
+    npm run test
+ ```
+ If you want to run e2e tests, the following command runs all tests including e2e, but keep in mind that running this command will require you to run the application in a separate process.
+ ```
+    npm run e2e
  ```
 
  Docker image coming soon :)
