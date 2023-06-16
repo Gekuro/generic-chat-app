@@ -45,6 +45,7 @@ const session_middleware = session({
 express_app.use(express.static('static'));
 express_app.use(favicon(path.join(dirname, 'static/favicon.ico')));
 express_app.use(express.urlencoded({extended: true}));
+express_app.use(express.json());
 express_app.use(cookie_parser());
 express_app.use(session_middleware);
 express_app.set('view engine', 'hbs');

@@ -1,5 +1,8 @@
 import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
 
+
+// socket handling
+
 const socket = io.connect(window.location.host, {
     reconnectionDelayMax: 10000
 });
@@ -69,3 +72,33 @@ const create_conversation_element = async (other_user, content) => {
 
     document.querySelector("div#messages_container").prepend(conversation_wrap);
 };
+
+// donate button
+
+const donate_btn = document.querySelector("#donate_button");
+
+donate_btn.addEventListener("click", async () => {
+    const res = await fetch('/donate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            usd_amount: 10.0,
+        }),
+    });
+
+    if (!res.ok) {
+        console.error("Connection issue while creating checkout session");
+        return;
+    }
+
+    const body = await res.json();
+
+    if (!body.url) {
+        console.error(body);
+        return;
+    }
+
+    window.location.href = body.url;
+});
