@@ -42,6 +42,7 @@ Bash:
  ```
 ## Specify the connection details and run:
  Edit the .env file, to specify credentials, the session secret and addresses of the Redis and MySQL server instances.
+ For the Donate button to be functional, you will need to set up a Stripe account and fill out the API key and product ID also in dotenv.
  If everything seems in order, run the application:
  ```
     npm start

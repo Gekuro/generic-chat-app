@@ -14,7 +14,7 @@ let page;
 describe('checking user registration and login', async () => {
     before(async () => {
         page = await browser.newPage();
-        await page.goto(`http://localhost:${process.env.HTTP_SERVER_PORT}/`);
+        await page.goto(`${process.env.PUBLIC_URL}:${process.env.HTTP_SERVER_PORT}/`);
     });
 
     it('the register page should not allow registering in with incorrect credentials', async () => {
