@@ -36,6 +36,12 @@ Bash:
  ```
     cat ./create-database.sql | mysql -uroot -p
  ```
+
+If using `mysqlsh`, which is different apparently, try this:
+ ```
+    mysqlsh -uroot -p --file .\create-database.sql
+ ```
+
 ## Install the Node dependencies:
  ```
     npm i
