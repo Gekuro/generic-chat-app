@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    depends_on:
+      - app-redis
+      - app-mysql
+    environment:
+      - REDIS_URL=app-redis
+      - MYSQL_URL=app-mysql
+      - MYSQL_RETRY=true
+    networks:
+      - main
+  app-redis:
+    image: redis:7.2.4
+    restart: always
+    ports:
+      - 6379:6379
+    networks:
+      - main
+  app-mysql:
+    image: mysql:8.3.0
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - ./dbdump:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=zaq1@WSX
+    networks:
+      - main
+
+networks:
+  main:
+    driver: bridge
+

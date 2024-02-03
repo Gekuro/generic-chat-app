@@ -23,6 +23,9 @@ const express_app = express();
 const server = http.Server(express_app);
 const socket_io = new SocketServer(server);
 
+// MySQL init
+db.connect();
+
 // Redis init
 const redis_client = redis.createClient({
     socket: {
@@ -60,8 +63,4 @@ set_socket_events(socket_io);
 socket_io.listen(server);
 server.listen(process.env.HTTP_SERVER_PORT, () => {
     console.log(`Server running on port: ${process.env.HTTP_SERVER_PORT}`);
-});
-
-db.con.connect((err)=>{
-    if(err)throw new Error(err);
 });

@@ -13,7 +13,16 @@ Databases: MySQL (users, messages), Redis (cookie sessions)<br />
 Testing: Mocha, Chai, Puppeteer<br />
 Other notable dependencies: bcryptJS, Handlebars
 
-# To run
+# Run on containers (recommended)
+
+ The project features a `docker-compose.yml`.
+ Simply use:
+ ```
+   docker compose up
+ ```
+ The app will be ready to use on `http://localhost:80`. Make sure to edit the `.env` file!
+
+# Run on bare metal
 
 ## You will need to have installed (and running):
  - MySQL Server
@@ -30,16 +39,16 @@ The .sql script will create a database "generic-chat-app", so there is no reason
 
 PowerShell:
  ```
-    Get-Content .\create-database.sql | mysql -uroot -p
+    Get-Content ./dbdump/create-database.sql | mysql -uroot -p
  ```
 Bash:
  ```
-    cat ./create-database.sql | mysql -uroot -p
+    cat ./dbdump/create-database.sql | mysql -uroot -p
  ```
 
 If using `mysqlsh`, which is different apparently, try this:
  ```
-    mysqlsh -uroot -p --file .\create-database.sql
+    mysqlsh -uroot -p --file ./dbdump/create-database.sql
  ```
 
 ## Install the Node dependencies:
@@ -62,5 +71,3 @@ If using `mysqlsh`, which is different apparently, try this:
  ```
     npm run e2e
  ```
-
- Docker image coming soon :)

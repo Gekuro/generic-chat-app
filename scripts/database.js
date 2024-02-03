@@ -4,12 +4,37 @@ import bcrypt from "bcryptjs";
 
 export default {
 
-    con: await mysql.createConnection({
-        host: process.env.MYSQL_URL,
-        user: process.env.MYSQL_USER,
-        password: process.env.MYSQL_PWD,
-        database: process.env.MYSQL_DB,
-    }),
+    async connect() {
+        if (process.env.MYSQL_RETRY !== "true") {
+            await this._createConn();
+            return;
+        }
+
+        console.log("Infinite retry of MySQL connection enabled!");
+        while(true) {
+            try {
+                await this._createConn();
+                console.log("Connected to MySQL");
+                break;
+            } catch(err) {
+                console.log("Failed to connect to MySQL. Retrying...");
+                await new Promise(res => setTimeout(res, 1000));
+            }
+        }
+    },
+
+    async _createConn() {
+        const connection = await mysql.createConnection({
+            host: process.env.MYSQL_URL,
+            user: process.env.MYSQL_USER,
+            password: process.env.MYSQL_PWD,
+            database: process.env.MYSQL_DB,
+        });
+        this.con = connection;
+        await this.con.connect((err)=>{
+            if(err)throw new Error(err);
+        });
+    },
 
     // create operations
 
